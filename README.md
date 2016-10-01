@@ -3,5 +3,7 @@ First Project for TGP
 
 30/09/16
 
-Added Jumping  
-Added Multiple Pipes (Work in Progress)  
+Added jumping  
+~~Added multiple pipes (Work in Progress)~~  
+Added continuous pipe drawing.
+
