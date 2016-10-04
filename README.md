@@ -10,3 +10,8 @@ Added jumping
 
 Added continuous pipe drawing.
 
+0.1.2
+
+Added continuous ground drawing.  
+Game will not start until the escape key is pressed.  
+
