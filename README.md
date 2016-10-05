@@ -15,3 +15,8 @@ Added continuous pipe drawing.
 Added continuous ground drawing.  
 Game will not start until the escape key is pressed.  
 
+0.1.3
+
+Added top pipes
+Added action when collision occurs
+
