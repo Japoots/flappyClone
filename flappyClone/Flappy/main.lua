@@ -1,25 +1,27 @@
 function love.load()
-  paused= true
+  paused = true
   background= love.graphics.newImage("sprites/bg.png")
-  backgroundQuad = love.graphics.newQuad(1,1,720/2,1280/2,720/2,1280/2)
+  bgPosX = 0
+  startScreen = love.graphics.newImage("sprites/start.png")
   ground = love.graphics.newImage("sprites/ground.png")
   groundPosX = 0
   flappy = love.graphics.newImage("sprites/flappy.png")
-  flappyPosY = 200
+  flappyPosY = 250
+  flappy2 = love.graphics.newImage("sprites/flappy2.png")
   pipe = love.graphics.newImage("sprites/pipe.png")
   pipeDown = love.graphics.newImage("sprites/pipeDown.png")
-  pipePosX = 400
+  pipePosX = 400  
   pipePosY = 400
 end
 
 function love.draw()
-  love.graphics.draw(background, backgroundQuad, 0, 0)
-  love.graphics.draw(flappy, 125, flappyPosY)
-  love.graphics.draw(ground, groundPosX, 550)
+  love.graphics.draw(background, bgPosX,0)
+  love.graphics.draw(flappy, 125, flappyPosY) 
   love.graphics.draw(pipe, pipePosX, pipePosY)
-  love.graphics.draw(pipeDown, pipePosX, pipePosY - 400)
+  love.graphics.draw(pipeDown, pipePosX, pipePosY - 680)
+  love.graphics.draw(ground, groundPosX, 529)
   love.update()
-end
+end 
 
 
 
@@ -27,36 +29,56 @@ function love.keyreleased(key)
   if key == "escape" then
     paused = false
   end
-  if not paused then 
-   if key == "space" then
-      jump()
-    end
-   end
+  
 end
+function love.keypressed(key)
+  if not paused then
+    if key == "space" then
+    flappyPosY = flappyPosY- 10
+    end
+  end
+end
+
 
   
 function love.update()
-  jumping = true
+  if paused == true then
+  love.graphics.draw(startScreen, 0,0)
+  end
+  jumping = false
+  bgPosX = bgPosX - 0.1
+  if bgPosX < -360 then
+  love.graphics.draw(background, bgPosX, 1)
+  bgPosX = 0
+  end
   groundPosX = groundPosX - 1.0
   if groundPosX < -360 then
   love.graphics.draw(ground, 1, groundPosX)
   groundPosX = 0
   end
-  if not paused then 
+  if not paused then
+  if love.keyboard.isDown('space') then
+  jump()
+  end
   pipePosX = pipePosX - 1.0
   if pipePosX < -80 then
   love.graphics.draw(pipe, pipePosX, pipePosY)
+  love.graphics.draw(pipeDown, pipePosX, pipePosY)
   pipePosX = 380
-  pipePosY = love.math.random(250,550)
+  pipePosY = love.math.random(250,510)
 end
 if jumping == false then
-  flappyPosY = flappyPosY + 2.5
+  flappyPosY = flappyPosY + 1  
 end
-  hitTest = CheckCollision(pipePosX, pipePosY, 60, 150, 125, flappyPosY, 38, 27)  
-  if(hitTest) then
-    paused = true
+
+  hitTestBot = CheckCollision(pipePosX, pipePosY, 60, 300, 125, flappyPosY, 38, 27)  
+  if(hitTestBot) then
+    love.load()
   end
-  end
+  hitTestUp = CheckCollision(pipePosX, pipePosY - 380, 60, 300, 125, flappyPosY, 38, 27)
+  if(hitTestUp) then
+    love.load()
+  end 
 end
 
 function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
@@ -67,6 +89,9 @@ function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
 end
 
 function jump()
-  jumping = true
-  flappyPosY = flappyPosY  -  20
+    flappyPosY = flappyPosY - 2
+    love.graphics.draw(flappy2, 125, flappyPosY)
 end
+
+
+end  
