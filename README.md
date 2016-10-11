@@ -17,7 +17,7 @@ Game will not start until the escape key is pressed.
 
 0.1.3
 
-Added top pipes .
+Added top pipes.  
 ~~Added action when collision occurs~~  
 
 0.1.4
@@ -27,3 +27,6 @@ Added start screen.
 Added scrolling paralax background.  
 Added minor animation for flappy.  
 
+0.1.5
+
+Added difficulty option (Changes speeds of pipes and ground)
