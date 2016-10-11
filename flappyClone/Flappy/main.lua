@@ -1,5 +1,6 @@
 function love.load()
   paused = true
+  easyMode = true
   background= love.graphics.newImage("sprites/bg.png")
   bgPosX = 0
   startScreen = love.graphics.newImage("sprites/start.png")
@@ -12,6 +13,10 @@ function love.load()
   pipeDown = love.graphics.newImage("sprites/pipeDown.png")
   pipePosX = 400  
   pipePosY = 400
+  easyButton = love.graphics.newImage("sprites/easy.png")
+  hardButton = love.graphics.newImage("sprites/hard.png")
+  musicOn = love.graphics.newImage("sprites/on.png")
+  musicOff = love.graphics.newImage("sprites/off.png")
 end
 
 function love.draw()
@@ -39,19 +44,41 @@ function love.keypressed(key)
   end
 end
 
+function love.mousepressed(x, y, button)
+   if paused then
+   if button == 1
+   and x >= 270 and x < 270 + easyButton:getWidth()
+   and y >= 400 and y < 400 + easyButton:getHeight() then
+      if easyMode == true then easyMode = false
+      elseif easyMode == false then easyMode = true
+      end
+   end
+   end
+end
 
-  
+
+
+
 function love.update()
   if paused == true then
   love.graphics.draw(startScreen, 0,0)
+  love.graphics.draw(musicOff, 0,0)
+  if easyMode == true then
+    love.graphics.draw(easyButton, 270,400)
+  end
+  if easyMode == false then
+      love.graphics.draw(hardButton, 270,400)
+  end
   end
   jumping = false
   bgPosX = bgPosX - 0.1
   if bgPosX < -360 then
   love.graphics.draw(background, bgPosX, 1)
   bgPosX = 0
-  end
-  groundPosX = groundPosX - 1.0
+  end 
+  if easyMode == true then groundPosX = groundPosX - 1.0 
+  elseif easyMode == false then groundPosX = groundPosX - 2.0
+end
   if groundPosX < -360 then
   love.graphics.draw(ground, 1, groundPosX)
   groundPosX = 0
@@ -59,7 +86,11 @@ function love.update()
   if not paused then
   if love.keyboard.isDown('space') then
   jump()
-  end
+end
+
+if easyMode == true then pipePosX = pipePosX - 1.0 
+elseif easyMode == false then pipePosX = pipePosX - 2.0
+end
   pipePosX = pipePosX - 1.0
   if pipePosX < -80 then
   love.graphics.draw(pipe, pipePosX, pipePosY)
